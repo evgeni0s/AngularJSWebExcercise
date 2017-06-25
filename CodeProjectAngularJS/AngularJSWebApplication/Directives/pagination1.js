@@ -1,6 +1,6 @@
 ﻿
 define(['application-configuration'], function (app) {
-    var pagination = function ($parse, $timeout) {
+    var pagination = function ($parse, $timeout, $rootScope) {
         var settings = {
             Pages: [],
             //PageTemplate: '<div  class="tempPage"/>', /*'<article class="individualPage" />',*/
@@ -8,7 +8,7 @@ define(['application-configuration'], function (app) {
             //ContentBox: {},
             
             ParentHeight: 0,
-            ParentHeightCorrection: 0,
+            ParentHeightCorrection: 50,
             //Width: 100,
             //LineHight: 30,
             //Next: "",
@@ -163,14 +163,48 @@ define(['application-configuration'], function (app) {
                 //    $('#scrollArea').scrollLeft();
                 //    event.preventDefault();
                 //});
+
+                
+
+
                 var prioritylogic = function () {                     //$timeout == OnWindowLoaded. because after changed priority, ParentHeight was not defined
                     parent = element;
-                    parent.ready(function () {
+                    //parent.ready(function () {
+                    //    var i = 0;
+                    //    var test = element[0].offsetHeight;
+                    //    i++;
+                    //});
+                    var findPatentOfNonZeroHeight = function ()
+                    {
+                        var el = element; //your clicked element
+                        while (el.parent() && el[0].offsetHeight == 0) {
+                            //display, log or do what you want with element
+                            el = el.parent();
+                        }
+                        return el[0].offsetHeight > 0 ? el : null;
+                    };
+                    $rootScope.$on('$viewContentLoaded', function () {
                         var i = 0;
                         var test = element[0].offsetHeight;
                         i++;
                     });
-                    settings.ParentHeight = element[0].offsetHeight - settings.ParentHeightCorrection;
+                    angular.element(document).ready(function () {
+
+                        // your code here
+                        var i = 0;
+                        var test = element[0].offsetHeight;
+                        i++;
+                        var heightAnchor = findPatentOfNonZeroHeight();
+                        var test = heightAnchor[0].offsetHeight;
+                    });
+                    var heightAnchor = findPatentOfNonZeroHeight();
+                    if (!heightAnchor)
+                    {
+                        // Layout is bad. Need to specify height at least somewhere
+                        return;
+                    }
+                    settings.ParentHeight = heightAnchor[0].offsetHeight - settings.ParentHeightCorrection;
+                    //settings.ParentHeight = element[0].offsetHeight - settings.ParentHeightCorrection;
                     //$scope.tempPageText = "";
                     //tempPageText = $scope.tempPageText;
                     //$scope.$watch('pagination-text', function (value) {
@@ -184,9 +218,9 @@ define(['application-configuration'], function (app) {
 
                         paginate(value.split(' '));
 
+                        scope.pagesLoaded(settings);
                         //$scope.pagesLoaded(settings);
                         //scope.pagesLoaded({ payload: settings });
-                        scope.pagesLoaded(settings);
                     });
                 };
                 prioritylogic();

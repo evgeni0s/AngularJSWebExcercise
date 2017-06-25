@@ -1,16 +1,19 @@
 ﻿<!--this is actually a pagelist-->
 
-<div class="bookPageFlex" horizontal-scroll>
+<div class="bookPageFlex" horizontal-scroll style="height:100%">
 
     <div ng-controller="bookPageController"
          ng-init="initializeController(page)"
          ng-repeat="page in PagesModels.Pages track by $index"
-         ng-show="page.IsVisible()" ><!--style="border:2px solid #ffd800;
-background: rgba(255, 248, 121, 0.2);"-->
+         ng-show="page.IsVisible()" style="height:100%">
+        <!--ng-if="$index % 3 == 0"--> <!--analog of visible-->
 
-        <div>
-            <div class="pageNumber">{{page.PageNumber}}</div>
-            <div ng-bind="page.Text" class="bookPage" />
+        <div style="height:100%">
+            <div class="pageNumber" ng-class="{pageNumberLeft : page.PageNumber % 2 == 1, 
+                                               pageNumberRight : page.PageNumber % 2 == 0}">
+                        {{page.PageNumber}}
+            </div>
+            <div ng-bind="page.Text" class="bookPage" style="height:100%" />
         </div>
     </div>
 
@@ -26,42 +29,49 @@ dfgs dfgsdfg fdgdfgd fg sdg-->
 <!--<button ng-click="onRefreshItems">Rerender Items</button>-->
 
 <style>
-       .bookPage {
-           white-space: pre-wrap;
-           column-count: 1;
-           font-family: "Whitney SSm A", "Whitney SSm B", "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Sans-Serif;
-           font-weight: 400;
-           line-height: 1.45;
-           color: #333;
-           padding: 1em;
-       }
+    .bookPage {
+        white-space: pre-wrap;
+        column-count: 1;
+        font-family: "Whitney SSm A", "Whitney SSm B", "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Sans-Serif;
+        font-weight: 400;
+        line-height: 1.45;
+        color: #333;
+        padding: 1em;
+    }
 
-       .bookPageFlex {
-           display: flex;
-           overflow-x: auto;
-           /*width:400px;*/
-       }
+    .bookPageFlex {
+        display: flex;
+        overflow-x: auto;
+        /*width:400px;*/
+    }
 
         /*flex children*/
         .bookPageFlex > * {
             flex: 0 0 50%;
         }
 
-       .pageNumber {
-           height: 1.2em;
-           width: 1.2em;
-           float: right;
-           text-align: right;
-           background: #549DFF;
-           border-radius: 50%;
-           border: 1px solid White;
-           color: White;
-           text-align: center;
-           font: 20px Arial, sans-serif;
-           margin: 4px;
-       }
+    .pageNumber {
+        height: 1.2em;
+        width: 1.2em;
+        text-align: right;
+        background: #549DFF;
+        border-radius: 50%;
+        border: 1px solid White;
+        color: White;
+        text-align: center;
+        font: 20px Arial, sans-serif;
+        margin: 4px;
+    }
 
-       /* backup 2
+    .pageNumberLeft {
+        float: left;
+    }
+
+    .pageNumberRight {
+        float: right;
+    }
+
+    /* backup 2
         <div ng-controller="bookPageController"
                 ng-init="initializeController(page)"
                 ng-repeat="page in PagesModels.Pages track by $index"
@@ -80,7 +90,7 @@ dfgs dfgsdfg fdgdfgd fg sdg-->
        }
     */
 
-       /*backup
+    /*backup
            .wrapper {
            display: flex;
            flex-flow: row nowrap;
@@ -93,5 +103,5 @@ dfgs dfgsdfg fdgdfgd fg sdg-->
            flex: 0 0 50%;
            height: 100%;
        }*/
-       /* don't grow, don't shrink, stay fixed at 50% width */
+    /* don't grow, don't shrink, stay fixed at 50% width */
 </style>
