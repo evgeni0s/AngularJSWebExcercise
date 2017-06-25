@@ -1,0 +1,188 @@
+﻿
+
+
+<div ng-controller="bookReaderController" ng-init="initializeController()" class="bookReaderController">
+    <h3> {{Name}} </h3>
+    <!--<div id="fullScreenTarget" class="mainPanel" pagination1
+         pagination-text="Text"
+         pages-loaded="onPagesLoaded">
+        <div ng-include="'/Views/Library/BookPage.html'" />
+    </div>-->
+
+    <div class="bookReaderGrid">
+        <div class="topPanel">top</div>
+        <div class="leftPanel">left</div>
+        <div class="bottomPanel">bottom</div>
+        <div class="mainPanel">
+            <div id="fullScreenTarget" class="mainPanel" pagination1
+                 pagination-text="Text"
+                 pages-loaded="onPagesLoaded">
+                <div ng-include="'/Views/Library/BookPage.html'" />
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--<div id="fullScreenTarget" class="mainPanel" pagination1
+     pagination-text="Text"
+     pages-loaded="onPagesLoaded">-->
+<!--<div ng-include="'/Views/Library/temp1.html'"/>-->
+<!--<div>sdfgsdfgd f</div>-->
+<!--</div>-->
+<!--</div>-->
+<style>
+    .bookPageFlex {
+        display: flex;
+        overflow-x: auto;
+    }
+
+    .bookReaderGrid {
+        display: grid;
+        grid-template-columns: 20% 80%;
+        grid-template-rows: 30px auto 30px;
+        border: 2px solid blue;
+        height: 85vh;
+        /*height: 100%;*/
+        /*grid-gap: 2px 2px;*/
+    }
+
+        /*display tools*/
+        .bookReaderGrid > .topPanel {
+            grid-row: 1 / 2;
+            grid-column: 2 / span 3;
+            background: #ffd800
+        }
+
+        /*pages preview*/
+        .bookReaderGrid > .leftPanel {
+            grid-row: 1 / span 3;
+            grid-column: 1 / 2;
+            background: #ffd8f0
+        }
+
+        .bookReaderGrid > .mainPanel {
+            display:;
+            grid-row: 2 / 3;
+            grid-column: 2 / 3;
+            /*justify-items: stretch;*/
+            background: #ff484f
+        }
+
+        .bookReaderGrid > .bottomPanel {
+            grid-row: 3 / 4;
+            grid-column: 2 / span 3;
+            /*grid-column: 2 / span 3;*/
+            background: #9DE0FF
+        }
+
+    /*.textParent >> * {*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*overflow-x: auto;*/
+    /*border: 10px solid green;*/
+    /*}*/
+    /*animation-direction:alternate-reverse
+            reverse
+            alternate
+            normal*/
+    .bookReaderController {
+        /*width:100%;*/
+        height: 100%;
+        /*background: #dbdbdb;*/
+    }
+
+    /*.bo*/
+
+    /*@page {
+        size: 7in 9.25in;
+        margin: 27mm 16mm 27mm 16mm;
+    }
+    .text {
+        page-break-after: always;
+    }*/
+    /*@media screen and (min-width: 500px) {
+    html {
+        font-size: calc(15px + 7 * ((100vw - 500px) / 900));
+    }
+    }*/
+    /*@media (min-height: 600px) {
+        text {
+            -webkit-columns: 2 350px;
+            -moz-columns: 2 350px;
+            columns: 2 350px;
+        }
+    }*/
+    /*.parent, .text {
+        height: auto;
+        padding-bottom: 10px;
+        overflow: hidden;
+    }*/
+    .fullscreen {
+        /*width: auto;*/
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    /*.parent:-webkit-full-screen .parent:-moz-full-screen .parent:-ms-fullscreen .parent:fullscreen {
+        background-color: pink;
+    }*/
+</style>
+<!--glyphicon glyphicon-calendar - full screen icon-->
+<!--second way to make a full screen-->
+<!--<div ng-click="isFullScreen = !isFullScreen"
+     ng-class="{fullscreen: isFullScreen}">click me</div>-->
+<!--<div ng-include="'/Views/Library/BooksTable.html'"></div>-->
+<!--<button class="ytp-fullscreen-button ytp-button" title="Во весь экран">
+    <svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%">
+        <g class="ytp-fullscreen-button-corner-0">
+            <use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytp-svg-19">
+            </use>
+            <path class="ytp-svg-fill" d="m 10,16 2,0 0,-4 4,0 0,-2 L 10,10 l 0,6 0,0 z" id="ytp-svg-19"></path>
+        </g>
+        <g class="ytp-fullscreen-button-corner-1">
+            <use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytp-svg-20">
+            </use>
+            <path class="ytp-svg-fill" d="m 20,10 0,2 4,0 0,4 2,0 L 26,10 l -6,0 0,0 z" id="ytp-svg-20">
+            </path>
+        </g>
+        <g class="ytp-fullscreen-button-corner-2">
+            <use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytp-svg-21">
+            </use>
+            <path class="ytp-svg-fill" d="m 24,24 -4,0 0,2 L 26,26 l 0,-6 -2,0 0,4 0,0 z" id="ytp-svg-21"></path>
+        </g>
+        <g class="ytp-fullscreen-button-corner-3"><use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytp-svg-22"></use><path class="ytp-svg-fill" d="M 12,20 10,20 10,26 l 6,0 0,-2 -4,0 0,-4 0,0 z" id="ytp-svg-22"></path></g>
+    </svg>
+</button>-->
+<!--<div id="fullScreenTarget" ng-class="{fullscreen: isFullscreen}" ng-bind="Text"></div>-->
+<!--<div id="fullScreenTarget" fullscreen ng-model="isFullScreen" ng-bind="Text"></div>-->
+<!---->
+<!--Backup-->
+<!--<div id="fullScreenTarget" fullscreen="isFullScreen" class="textParent" >
+    <article  class="textBox" ng-bind="Text"></article>
+    <button ng-click="isFullScreen = !isFullScreen"  class="fullscreen">Full Screen button</button>
+</div>-->
+<!--works-->
+<!--<article ng-controller="bookPageController"
+ng-init="initializeController(page)"
+ng-repeat="page in PagesModels.Pages track by $index"
+ng-bind="page.Text"
+ng-show="page.IsVisible()"
+class="bookPage"/>-->
+<!--WORKS FINE-->    <!--<button ng-click="isFullScreen = !isFullScreen" class="fullscreen">Full Screen button</button>-->
+<!--<article ng-controller="bookPageController"
+     ng-init="initializeController(page)"
+     class="bookPage"
+     ng-repeat="page in PagesModels.Pages track by $index"
+     ng-bind="Text"
+     ></article>-->
+<!--ng-switch on="isPageSelected()"-->
+<!--Backup page-->
+<!--<div id="fullScreenTarget" class="textParent" pagination1
+     pagination-text="Text"
+     pages-loaded="onPagesLoaded"
+     >
+    <div ng-include="'/Views/Library/BookPage.html'" ></div>
+
+
+</div>-->
