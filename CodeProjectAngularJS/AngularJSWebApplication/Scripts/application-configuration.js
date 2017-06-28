@@ -151,24 +151,24 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
     //app.directive("fullscreen", fullScreenDirective);
     var directives = ["./Directives/fullscreen.js",
         "./Directives/pagination1.js",
-        "./Directives/horizontalscroll.js"];
+        "./Directives/horizontalscroll.js",
+        "./Directives/isVisibleAware.js",
+        "./Directives/anchorScroll1.js",
+        "./Directives/horizontalAnchorScroll.js"];
     directives.forEach(function (entery) {
         require([entery]);
     });
-
-    //var fullscreenDir = './Directives/fullscreen.js';
-    //var fullscreenMod = require([fullscreenDir]);
-
-    //var paginationDir = './Directives/pagination1.js';
-    //var paginationMod = require([paginationDir]);
-
-    //var paginationDir = './Directives/horizontalscroll.js';
-    //var paginationMod = require([paginationDir]);
     
 
     try {
-        var pageControllerDir = './Views/Library/BookPageController.js';
-        var pageControllerMod = require([pageControllerDir]);
+        //var pageControllerDir = './Views/Library/BookPageController.js';
+        //var pageControllerMod = require([pageControllerDir]);
+
+        var controllers = ["./Views/Library/BookPageController.js",
+            "./Views/Library/BookReaderToolPanelController.js"];
+        controllers.forEach(function (entery) {
+            require([entery]);
+        });
 
     } catch (e) {
         console.log(e);

@@ -1,17 +1,22 @@
 ﻿<!--this is actually a pagelist-->
-
-<div class="bookPageFlex" horizontal-scroll style="height:100%">
-
+<!--this is a candidate for separate controller. HorizontalPageView TwoPageView
+    PagesModels - property from reader-->
+<div class="bookPageFlex" style="height:100%" horizontal-anchor-scroll
+     next-id="PagesModels.getNextId()" 
+     previous-id="PagesModels.getPreviousId()"
+     scroll-compleated="PagesModels.goTo">
+    <!--horizontal-scroll--><!--anchor-scroll1--> 
     <div ng-controller="bookPageController"
          ng-init="initializeController(page)"
          ng-repeat="page in PagesModels.Pages track by $index"
-         ng-show="page.IsVisible()" style="height:100%">
+         ng-show="page.IsVisible()" style="height:100%"
+         id="anchor{{page.PageNumber}}">
         <!--ng-if="$index % 3 == 0"--> <!--analog of visible-->
 
-        <div style="height:100%">
-            <div class="pageNumber" ng-class="{pageNumberLeft : page.PageNumber % 2 == 1, 
+        <div style="height:100%" ><!--is-visible-aware-->
+            <div class="pageNumber" ng-class="{pageNumberLeft : page.PageNumber % 2 == 1,
                                                pageNumberRight : page.PageNumber % 2 == 0}">
-                        {{page.PageNumber}}
+                {{page.PageNumber}}
             </div>
             <div ng-bind="page.Text" class="bookPage" style="height:100%" />
         </div>
@@ -41,14 +46,54 @@ dfgs dfgsdfg fdgdfgd fg sdg-->
 
     .bookPageFlex {
         display: flex;
-        overflow-x: auto;
-        /*width:400px;*/
+        overflow: scroll;
+        -webkit-box-shadow: inset 0 4px 6px -3px rgba(0,0,0,0.5),
+                            inset -3px 3px 6px -3px rgba(0,0,0,0.5), 
+                            inset 5px 0 6px -3px rgba(0,0,0,0.5);
     }
 
         /*flex children*/
         .bookPageFlex > * {
             flex: 0 0 50%;
         }
+
+    @keyframes showScrollBar {
+        from {
+            overflow: hidden;
+        }
+
+        to {
+            overflow-x: scroll;
+        }
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        .bookPageFlex {
+            background-color: rgba(0,0,0,0);
+            -webkit-background-clip: text;
+            transition: background-color .8s;
+        }
+
+            .bookPageFlex:hover {
+                background-color:  rgba(0, 122, 255, 0.30);
+            }
+
+            .bookPageFlex::-webkit-scrollbar {
+                width: 10px;
+                height: 10px;
+                /*margin: 0 0 5px 0;*/
+            }
+
+            .container::-webkit-scrollbar-track {
+                display: none;
+            }
+
+            .bookPageFlex::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                background-color: inherit;
+                margin:10px;
+            }
+    }
 
     .pageNumber {
         height: 1.2em;

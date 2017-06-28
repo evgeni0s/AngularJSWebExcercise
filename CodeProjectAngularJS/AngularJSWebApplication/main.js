@@ -10,6 +10,7 @@ require.config({
     paths: {
         'application-configuration': 'scripts/application-configuration',
         'jquery': 'scripts/jquery-3.1.1',
+        'jquery-ui': 'scripts/jquery-ui-1.12.1',
         'angular': 'scripts/angular',
         'angular-route': 'scripts/angular-route',
         'angularAMD': 'scripts/angularAMD',
@@ -27,11 +28,13 @@ require.config({
         'paginationService': 'services/paginationService',    
         'angular-sanitize': 'scripts/angular-sanitize',
         'booksService': 'services/booksService',
+        'layoutParametersService': 'services/layoutParametersService',
         'customersController': 'Views/Shared/CustomersController',
         'productLookupModalController': 'Views/Shared/ProductLookupModalController',
         //'booksController': 'Views/Shared/BooksController'
-        'pagination':'Directives/pagination',
+        'pagination': 'Directives/pagination',
         'bookPageController': 'Views/Library/BookPageController',
+        'bookReaderToolPanelController': 'Views/Library/BookReaderToolPanelController',
     },
 
     // Add angular modules that does not support AMD out of the box, put it in a shim

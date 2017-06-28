@@ -1,10 +1,45 @@
-﻿<div class="toolPanel">
+﻿<div class="toolPanel" ng-controller="bookReaderToolPanelController" ng-init="initializeController()">
     <div>Page Display:</div>
-    <select>
-        <option>Single Page</option>
-        <option>Enable Scrolling</option>
-        <option>Two Page</option>
-        <option>Two Page Scrolling</option>
-    </select>
-    <div></div>
+    <select ng-model="LayoutProvider.CurrentLayout" 
+            ng-options="key as value for (key, value) in LayoutProvider.LayoutTypes"
+            ng-change="onCurrentLayoutChanged()"></select><!--ng-init="CurrentLayout = LayoutProvider.LayoutTypes[0]"-->
+    <div class="currentPageContainer">        <!--<input ng-model="CurrentPage" ng-model-options="{ getterSetter: true, debounce: 3000 }" class="currentPage" />-->
+        <!--<input ng-model="CurrentPage" ng-model-options="{ getterSetter: true, debounce: 3000 }" class="currentPage" />-->
+        <input type="text" ng-model="CurrentPage" ng-model-options="{ debounce: 3000 }" class="currentPage" />
+        <!--<div ng-bind="CurrentPage" class="currentPage" />-->
+        <div class="currentPage" >{{CurrentPage}}</div>
+        <!--<div>/ {{TotalPages}}</div>-->
+        <!--<div ng-model="TotalPages" ng-model-options="{ getterSetter: true }">/ {{TotalPages}}</div>-->
+        <div ng-bind="TotalPages" value="/ {{TotalPages}}"/>
+    </div>
+    <!--SearchQuery comes from LayoutParameters-->
+    <!--for search can use  debounce: 1000-->
+    <!--Need some filters "title" "content". toggle buttons--> 
+    <div>Search:</div>
+    <input ng-model="SearchQuery.Text" class="search" />    
+
+    <!--<div>{{LayoutProvider.CurrentLayout}}</div>-->
+    <div>In library:</div>
+    <input type="checkbox" ng-model="SearchQuery.AllBooks" />
+
 </div>
+
+<style>
+    .toolPanel, .currentPageContainer {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .toolPanel > * {
+        /*flex: 0 0 50%;*/
+    }
+
+    /*.currentPageContainer {
+        display: flex;
+        justify-content: space-around;
+    }*/
+
+    .currentPage {
+        width: 50px;
+    }
+</style>

@@ -1,6 +1,6 @@
 ﻿define(['application-configuration'], function (app) {
 
-    var bookPageController = function ($scope, $rootScope, $routeParams, $compile, $sce) {
+    var bookPageController = function ($scope, $rootScope, $routeParams, $compile, $sce, $location, $anchorScroll) {
 
         //$scope.initializeController = function (applicationModule) {
 
@@ -17,6 +17,6 @@
     };
     //app.register.directive("bookPageController", function () { });
     app.register.controller('bookPageController', ['$scope', '$rootScope', '$routeParams',
-        '$compile', '$sce', bookPageController]);
+        '$compile', '$sce', '$location', '$anchorScroll', bookPageController]);
 
 });

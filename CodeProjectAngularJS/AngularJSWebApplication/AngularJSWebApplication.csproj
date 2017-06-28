@@ -161,8 +161,11 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Directives\anchorScroll1.js" />
     <Content Include="Directives\fullscreen.js" />
+    <Content Include="Directives\horizontalAnchorScroll.js" />
     <Content Include="Directives\horizontalscroll.js" />
+    <Content Include="Directives\isVisibleAware.js" />
     <Content Include="Directives\pagination1.js" />
     <Content Include="img\ajax-loader-1.gif" />
     <Content Include="img\CustomerInquiry.jpg" />
@@ -195,6 +198,7 @@
     <Content Include="Services\AlertsServices.js" />
     <Content Include="Services\CustomersServices.js" />
     <Content Include="Services\DataGridService.js" />
+    <Content Include="Services\LayoutParametersService.js" />
     <Content Include="Services\MainServices.js" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

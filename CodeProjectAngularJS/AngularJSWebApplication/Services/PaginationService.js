@@ -6,23 +6,40 @@ define(['application-configuration'], function (app) {
 
         var pages = [];
         var parentHight = 0;
-        var Current = {};
-        var next = function () {
-            var currentIndex = pages.indexOf(Current);
-            Current = pages[currentIndex + 1];
+        var Current = {};//this is a place where I will be grouping pages
+
+        
+        var totalPages = function () {
+            return pages.length;
         };
-        var previous = function () {
+
+        var goTo = function (id) {
+            Current = pages[id];
+        };
+
+        var goForward = function () {
+            var id = nextId();
+            goTo(id);
+        };
+
+        var goBackward = function () {
+            var id = previousId();
+            goTo(id);
+        };
+
+        var nextId = function () {
             var currentIndex = pages.indexOf(Current);
-            Current = pages[currentIndex - 1];
+            var nextIndex = currentIndex + 1;
+
+            return nextIndex < pages.length ? nextIndex : currentIndex;
+        };
+
+        var previousId = function () {
+            var currentIndex = pages.indexOf(Current);
+            var previousIndex = currentIndex - 1;
+            return previousIndex > 0 ? previousIndex : currentIndex;
         };
         
-        //var PageObject =
-        //    {
-        //        Text: "",
-        //        PageNumber: 0,
-        //        IsVisible: true,
-        //    };
-
         var PageObject = function()
         {
             this.Text = "";
@@ -44,17 +61,60 @@ define(['application-configuration'], function (app) {
             Current = pages[0];
             
         };
-        
+        var getCurrentPageNumber = function () {
+            return Current ? Current.PageNumber : 0;
+        }
+
+        var setCurrentPageNumber = function (value) {
+            if (value < 0 || value >= pages.lengs)
+            {
+                return;
+            }
+            Current = pages[value - 1];
+        };
+
         var paginationServiceApi = {
-            appedTextParts: appedTextParts,
             Pages: pages,
             ParentHeight: 0,
-            Next: next,
             Current: {},
-            Previous: previous,
+            //CurrentPageNumber: CurrentPageNumber,
+            getCurrentPageNumber: getCurrentPageNumber,
+            setCurrentPageNumber: setCurrentPageNumber,
+            appedTextParts: appedTextParts,
+            goForward: goForward,
+            goBackward: goBackward,
+            goTo: goTo,
+            getNextId: nextId,
+            getPreviousId: previousId,
+            getTotalPages: totalPages,
+
             //VisibleRange: 2,
 
         };
+
+
+        //Object.defineProperty(paginationServiceApi.prototype, "CurrentPageNumber", {
+
+        //    get: function () {
+        //        return Current.PageNumber;
+        //    },
+
+        //    set: function (value) {
+        //        Current = pages[value];
+        //    }
+        //});
+        //Object.defineProperty(this.prototype, "CurrentPageNumber", {
+
+        //    get: function () {
+        //        return Current.PageNumber;
+        //    },
+
+        //    set: function (value) {
+        //        Current = pages[value];
+        //    }
+        //});
+
+        //var k = CurrentPageNumber;
 
         return paginationServiceApi;
     }]);

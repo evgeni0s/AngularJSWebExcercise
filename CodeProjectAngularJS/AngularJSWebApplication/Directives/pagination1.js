@@ -198,6 +198,7 @@ define(['application-configuration'], function (app) {
                         var test = heightAnchor[0].offsetHeight;
                     });
                     var heightAnchor = findPatentOfNonZeroHeight();
+                    //var heightAnchor = $('.heightAnchor');
                     if (!heightAnchor)
                     {
                         // Layout is bad. Need to specify height at least somewhere
