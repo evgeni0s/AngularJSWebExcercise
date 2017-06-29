@@ -7,3 +7,7 @@ C:\Users\evgeni0s\Desktop\Demo Projects\CodeProjectAngularJSSource\CodeProjectAn
 C:\Users\evgeni0s\Desktop\Demo Projects\CodeProjectAngularJSSource\CodeProjectAngularJS\AngularJSDataModels\bin\Debug\AngularJSDataModels.pdb
 C:\Users\evgeni0s\Desktop\Demo Projects\CodeProjectAngularJSSource\CodeProjectAngularJS\AngularJSDataModels\obj\Debug\AngularJSDataModels.dll
 C:\Users\evgeni0s\Desktop\Demo Projects\CodeProjectAngularJSSource\CodeProjectAngularJS\AngularJSDataModels\obj\Debug\AngularJSDataModels.pdb
+I:\AngularExercise\CodeProjectAngularJS\AngularJSDataModels\bin\Debug\AngularJSDataModels.dll
+I:\AngularExercise\CodeProjectAngularJS\AngularJSDataModels\bin\Debug\AngularJSDataModels.pdb
+I:\AngularExercise\CodeProjectAngularJS\AngularJSDataModels\obj\Debug\AngularJSDataModels.dll
+I:\AngularExercise\CodeProjectAngularJS\AngularJSDataModels\obj\Debug\AngularJSDataModels.pdb

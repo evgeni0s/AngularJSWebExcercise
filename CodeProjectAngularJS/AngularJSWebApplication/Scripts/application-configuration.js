@@ -189,15 +189,21 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
         blockUIConfigProvider.autoBlock(false);
 
     });
+    var errorPath = function (route, path, search) {
+        return "/";
+    };
 
-    app.config(['$routeProvider', function ($routeProvider) {
+
+    app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
    
+        $locationProvider.hashPrefix('');
+
         $routeProvider
 
            .when("/", angularAMD.route({
                          
                 templateUrl: function (rp) {  return 'Views/Main/default.html';  },               
-                controllerUrl: "Views/Main/defaultController"            
+                controllerUrl: "Views/Main/defaultController"
 
             }))
 
@@ -256,7 +262,11 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
             }))
 
 
-            .otherwise({ redirectTo: '/' }) 
+            .otherwise({
+                //redirectTo: '/'
+                redirectTo: errorPath
+            }) 
+
 
     }]);
 
@@ -265,7 +275,7 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
              
         $scope.$on('$routeChangeStart', function (scope, next, current) {
              
-            if ($rootScope.IsloggedIn==true)
+            if ($rootScope.IsloggedIn===true)
             {               
                 $scope.authenicateUser($location.path(),$scope.authenicateUserComplete, $scope.authenicateUserError);
             }
@@ -274,19 +284,26 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
 
         $scope.$on('$routeChangeSuccess', function (scope, next, current) {
          
-            setTimeout(function () {
-                if ($scope.isCollapsed == true) {                   
-                    set95PercentWidth();
-                }              
-            }, 1000);
+            
          
 
         });
 
+        //$rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
+        //$rootScope.$on("$stateChangeError", function(event, current, previous, rejection) {
+        //    if (error && !error.authenticated) {
+        //        //$location.path("/login");
+        //    }
+        //});
+        $rootScope.$on("$routeChangeError", function(event, current, previous, rejection) {
+            if (error && !error.authenticated) {
+                //$location.path("/login");
+            }
+        });
 
         $scope.initializeController = function () {
             $rootScope.displayContent = false;
-            if ($location.path() != "")        
+            if ($location.path() !== "")        
             {                      
                 $scope.initializeApplication($scope.initializeApplicationComplete, $scope.initializeApplicationError);
             }
@@ -312,7 +329,7 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
            
         $scope.authenicateUserComplete = function (response) {
            
-            if (response.IsAuthenicated==false)               
+            if (response.IsAuthenicated === false)               
                 window.location = "/index.html";
         }
 
@@ -322,9 +339,11 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
 
         $scope.AjaxGet = function (route, successFunction, errorFunction) {         
             setTimeout(function () {
-                $http({ method: 'GET', url: route }).success(function (response, status, headers, config) {                 
-                    successFunction(response, status);
-                }).error(function (response) {                  
+                $http({ method: 'GET', url: route }).then(
+                    function (response) {                 
+                        successFunction(response.data, response.status);
+                },
+                    function (response) {                  
                     errorFunction(response);
                 });
             }, 1);
@@ -333,9 +352,9 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
 
         $scope.AjaxGetWithData = function (data, route, successFunction, errorFunction) {
             setTimeout(function () {
-                $http({ method: 'GET', url: route, params: data }).success(function (response, status, headers, config) {
-                    successFunction(response, status);
-                }).error(function (response) {
+                $http({ method: 'GET', url: route, params: data }).then(function (response) {
+                    successFunction(response.data, response.status);
+                },function (response) {
                     errorFunction(response);
                 });
             }, 1);
