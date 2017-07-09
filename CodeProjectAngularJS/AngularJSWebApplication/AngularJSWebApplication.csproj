@@ -155,10 +155,12 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Directives\anchorScroll1.js" />
     <Content Include="Directives\fullscreen.js" />
+    <Content Include="Directives\highlightDirective.js" />
     <Content Include="Directives\horizontalAnchorScroll.js" />
     <Content Include="Directives\horizontalscroll.js" />
     <Content Include="Directives\isVisibleAware.js" />
     <Content Include="Directives\pagination1.js" />
+    <Content Include="FiltersJS\highlight.js" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="img\ajax-loader-1.gif" />
     <Content Include="img\CustomerInquiry.jpg" />
@@ -968,6 +970,7 @@
     <Content Include="Services\CustomersServices.js" />
     <Content Include="Services\DataGridService.js" />
     <Content Include="Services\LayoutParametersService.js" />
+    <Content Include="Services\LibrarySearchService.js" />
     <Content Include="Services\MainServices.js" />
     <Content Include="Global.asax" />
     <Content Include="Helpers\UIHelpers.js" />
@@ -988,6 +991,7 @@
     <Content Include="Services\OrdersServices.js" />
     <Content Include="Services\PaginationService.js" />
     <Content Include="Services\ProductsServices.js" />
+    <Content Include="Services\WarehouseBaseService.js" />
     <Content Include="Views\Accounts\Login.html" />
     <Content Include="Views\Accounts\LoginController.js" />
     <Content Include="Views\Accounts\Logout.html" />

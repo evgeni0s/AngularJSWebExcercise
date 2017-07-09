@@ -4,10 +4,10 @@
             ng-options="key as value for (key, value) in LayoutProvider.LayoutTypes"
             ng-change="onCurrentLayoutChanged()"></select><!--ng-init="CurrentLayout = LayoutProvider.LayoutTypes[0]"-->
     <div class="currentPageContainer">        <!--<input ng-model="CurrentPage" ng-model-options="{ getterSetter: true, debounce: 3000 }" class="currentPage" />-->
-        <!--<input ng-model="CurrentPage" ng-model-options="{ getterSetter: true, debounce: 3000 }" class="currentPage" />-->
-        <input type="text" ng-model="CurrentPage" ng-model-options="{ debounce: 3000 }" class="currentPage" />
+        <input ng-model="CurrentPage" ng-model-options="{ getterSetter: true, debounce: 300 }" class="currentPage" />
+        <!--<input type="text" ng-model="CurrentPage" ng-model-options="{ debounce: 3000 }" class="currentPage" />-->
         <!--<div ng-bind="CurrentPage" class="currentPage" />-->
-        <div class="currentPage" >{{CurrentPage}}</div>
+        <!--<div class="currentPage" >{{CurrentPage}}</div>-->
         <!--<div>/ {{TotalPages}}</div>-->
         <!--<div ng-model="TotalPages" ng-model-options="{ getterSetter: true }">/ {{TotalPages}}</div>-->
         <div ng-bind="TotalPages" value="/ {{TotalPages}}"/>
@@ -16,8 +16,8 @@
     <!--for search can use  debounce: 1000-->
     <!--Need some filters "title" "content". toggle buttons--> 
     <div>Search:</div>
-    <input ng-model="SearchQuery.Text" class="search" />    
-
+    <input ng-model="SearchQuery.Text" class="search" ng-model-options="{ debounce: 300 }" />    
+    <input type="button" ng-click="onSearch()"/>
     <!--<div>{{LayoutProvider.CurrentLayout}}</div>-->
     <div>In library:</div>
     <input type="checkbox" ng-model="SearchQuery.AllBooks" />

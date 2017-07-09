@@ -1,9 +1,9 @@
 ﻿"use strict";
 //original
-define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'blockUI', ], function (angularAMD) {
-//define(['jquery','angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'blockUI', ], function ($,angularAMD) {
+define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'blockUI',], function (angularAMD) {
+    //define(['jquery','angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'blockUI', ], function ($,angularAMD) {
     var app = angular.module("mainModule", ['ngRoute', 'blockUI', 'ngSanitize', 'ui.bootstrap']);
-   
+
     app.filter("leadingZeroes", function () {
         return function (data) {
             var pad = "000" + data;
@@ -42,7 +42,7 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
     //                {
     //                    //var fullElement = angular.element(element);
     //                    //var fullElement = document.querySelector(scope.target);
-                        
+
     //                    fullScreenFunction(fullElement);
     //                }
     //            });
@@ -78,7 +78,7 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
     //            //document.addEventListener("fullscreenchange", function (event) 
     //            //fullElement.bind('fullscreenchange', function (event, data)
 
-                 
+
     //            var onChange = function (e) {
     //                scope.fullscreen = !!(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement);
     //            };
@@ -149,16 +149,40 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
     });
 
     //app.directive("fullscreen", fullScreenDirective);
-    var directives = ["./Directives/fullscreen.js",
-        "./Directives/pagination1.js",
-        "./Directives/horizontalscroll.js",
-        "./Directives/isVisibleAware.js",
-        "./Directives/anchorScroll1.js",
-        "./Directives/horizontalAnchorScroll.js"];
-    directives.forEach(function (entery) {
-        require([entery]);
-    });
-    
+    try {
+        var directives = ["./Directives/fullscreen.js",
+            "./Directives/pagination1.js",
+            "./Directives/horizontalscroll.js",
+            "./Directives/isVisibleAware.js",
+            "./Directives/anchorScroll1.js",
+            "./Directives/horizontalAnchorScroll.js",
+            "./Directives/highlightDirective.js"];
+        directives.forEach(function (entery) {
+            require([entery]);
+        });
+    }
+    catch (e) {
+        throw e;
+    }
+
+    try {
+        require(["./Services/LibrarySearchService.js"]);
+    }
+    catch (e) {
+        var rdf = 0;
+        rdf++;
+    }
+
+    try {
+        var filters = ["./FiltersJS/highlight.js"];
+        filters.forEach(function (entery) {
+            require([entery]);
+        });
+    }
+    catch (e) {
+        throw e;
+    }
+
 
     try {
         //var pageControllerDir = './Views/Library/BookPageController.js';
@@ -195,14 +219,14 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
 
 
     app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
-   
+
         $locationProvider.hashPrefix('');
 
         $routeProvider
 
-           .when("/", angularAMD.route({
-                         
-                templateUrl: function (rp) {  return 'Views/Main/default.html';  },               
+            .when("/", angularAMD.route({
+
+                templateUrl: function (rp) { return 'Views/Main/default.html'; },
                 controllerUrl: "Views/Main/defaultController"
 
             }))
@@ -220,7 +244,7 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
                         var parentPath = parsePath[1];
                         var controllerName = parsePath[2];
 
-                        var loadController = "Views/" + parentPath + "/" + controllerName + "Controller";                 
+                        var loadController = "Views/" + parentPath + "/" + controllerName + "Controller";
 
                         var deferred = $q.defer();
                         require([loadController], function () {
@@ -248,7 +272,7 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
                         var controllerName = parsePath[2];
 
                         var loadController = "Views/" + parentPath + "/" + controllerName + "Controller";
-                                             
+
                         var deferred = $q.defer();
                         require([loadController], function () {
                             $rootScope.$apply(function () {
@@ -265,27 +289,26 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
             .otherwise({
                 //redirectTo: '/'
                 redirectTo: errorPath
-            }) 
+            })
 
 
     }]);
 
 
     var indexController = function ($scope, $rootScope, $http, $location, blockUI) {
-             
+
         $scope.$on('$routeChangeStart', function (scope, next, current) {
-             
-            if ($rootScope.IsloggedIn===true)
-            {               
-                $scope.authenicateUser($location.path(),$scope.authenicateUserComplete, $scope.authenicateUserError);
+
+            if ($rootScope.IsloggedIn === true) {
+                $scope.authenicateUser($location.path(), $scope.authenicateUserComplete, $scope.authenicateUserError);
             }
-         
+
         });
 
         $scope.$on('$routeChangeSuccess', function (scope, next, current) {
-         
-            
-         
+
+
+
 
         });
 
@@ -295,7 +318,7 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
         //        //$location.path("/login");
         //    }
         //});
-        $rootScope.$on("$routeChangeError", function(event, current, previous, rejection) {
+        $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
             if (error && !error.authenticated) {
                 //$location.path("/login");
             }
@@ -303,8 +326,7 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
 
         $scope.initializeController = function () {
             $rootScope.displayContent = false;
-            if ($location.path() !== "")        
-            {                      
+            if ($location.path() !== "") {
                 $scope.initializeApplication($scope.initializeApplicationComplete, $scope.initializeApplicationError);
             }
         }
@@ -312,49 +334,49 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
         $scope.initializeApplicationComplete = function (response) {
             $rootScope.MenuItems = response.MenuItems;
             $rootScope.displayContent = true;
-            $rootScope.IsloggedIn = true;          
+            $rootScope.IsloggedIn = true;
         }
 
         $scope.initializeApplication = function (successFunction, errorFunction) {
-            blockUI.start();           
+            blockUI.start();
             $scope.AjaxGet("/api/main/InitializeApplication", successFunction, errorFunction);
             blockUI.stop();
         };
-              
+
         $scope.authenicateUser = function (route, successFunction, errorFunction) {
             var authenication = new Object();
             authenication.route = route;
             $scope.AjaxGetWithData(authenication, "/api/main/AuthenicateUser", successFunction, errorFunction);
         };
-           
+
         $scope.authenicateUserComplete = function (response) {
-           
-            if (response.IsAuthenicated === false)               
+
+            if (response.IsAuthenicated === false)
                 window.location = "/index.html";
         }
 
         $scope.authenicateUserError = function (response) {
-            alert("ERROR= "+response.IsAuthenicated);
+            alert("ERROR= " + response.IsAuthenicated);
         }
 
-        $scope.AjaxGet = function (route, successFunction, errorFunction) {         
+        $scope.AjaxGet = function (route, successFunction, errorFunction) {
             setTimeout(function () {
                 $http({ method: 'GET', url: route }).then(
-                    function (response) {                 
+                    function (response) {
                         successFunction(response.data, response.status);
-                },
-                    function (response) {                  
-                    errorFunction(response);
-                });
+                    },
+                    function (response) {
+                        errorFunction(response);
+                    });
             }, 1);
 
-        }   
+        }
 
         $scope.AjaxGetWithData = function (data, route, successFunction, errorFunction) {
             setTimeout(function () {
                 $http({ method: 'GET', url: route, params: data }).then(function (response) {
                     successFunction(response.data, response.status);
-                },function (response) {
+                }, function (response) {
                     errorFunction(response);
                 });
             }, 1);
@@ -369,7 +391,7 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
     // Bootstrap Angular when DOM is ready
     angularAMD.bootstrap(app);
 
-  
+
     return app;
 });
 

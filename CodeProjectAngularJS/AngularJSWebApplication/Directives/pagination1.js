@@ -101,10 +101,15 @@ define(['application-configuration'], function (app) {
             //var width = el.offsetWidth;
 
             
-
+                //var range = document.createRange();
+                //range.setStart(tempPage[0], 0);
             while (index < words.length && tempPage[0].offsetHeight < settings.ParentHeight)
             {
                 tempPageText += ' ' + words[index];
+                //DO NOT DELETE! this shows coordinates of selection
+                //var suggestedOffsset = tempPage[0].childNodes.length; // = 1
+                //range.setEnd(tempPage[0], suggestedOffsset);
+                //var rect = range.getBoundingClientRect();
                 index++;
             }
             if (tempPage[0].offsetHeight > settings.ParentHeight)
@@ -115,14 +120,49 @@ define(['application-configuration'], function (app) {
                 //tempPage.text(tempPage.text().slice(0, -lenthOfLastWord);
                 tempPageText = tempPageText.slice(0, -lenthOfLastWord);
             }
+            //var rects = range.getClientRects();
             settings.Pages.push(tempPageText);
             tempPage.empty();
             paginate(words, index);
             //var str = "12345.00";
             //str = str.slice(0, -1);
+
+
+
+
+
+
+        // These rects contain the client coordinates in top, left
+        //
+        //range.
         };
-
-
+        //var range = document.createRange();
+        //range.setStart(parentElt, start);
+        //range.setEnd(parentElt, end);
+        //// These rects contain the client coordinates in top, left
+        //var rects = range.getClientRects();
+        //function getSelectionDimensions() {
+        //    var sel = document.selection, range;
+        //    var width = 0, height = 0;
+        //    if (sel) {
+        //        if (sel.type != "Control") {
+        //            range = sel.createRange();
+        //            width = range.boundingWidth;
+        //            height = range.boundingHeight;
+        //        }
+        //    } else if (window.getSelection) {
+        //        sel = window.getSelection();
+        //        if (sel.rangeCount) {
+        //            range = sel.getRangeAt(0).cloneRange();
+        //            if (range.getBoundingClientRect) {
+        //                var rect = range.getBoundingClientRect();
+        //                width = rect.right - rect.left;
+        //                height = rect.bottom - rect.top;
+        //            }
+        //        }
+        //    }
+        //    return { width: width, height: height };
+        //}
         return {
             scope:
             {
@@ -188,15 +228,15 @@ define(['application-configuration'], function (app) {
                         var test = element[0].offsetHeight;
                         i++;
                     });
-                    angular.element(document).ready(function () {
+                    //angular.element(document).ready(function () {
 
-                        // your code here
-                        var i = 0;
-                        var test = element[0].offsetHeight;
-                        i++;
-                        var heightAnchor = findPatentOfNonZeroHeight();
-                        var test = heightAnchor[0].offsetHeight;
-                    });
+                    //    // your code here
+                    //    var i = 0;
+                    //    var test = element[0].offsetHeight;
+                    //    i++;
+                    //    var heightAnchor = findPatentOfNonZeroHeight();
+                    //    var test = heightAnchor[0].offsetHeight;
+                    //});
                     var heightAnchor = findPatentOfNonZeroHeight();
                     //var heightAnchor = $('.heightAnchor');
                     if (!heightAnchor)

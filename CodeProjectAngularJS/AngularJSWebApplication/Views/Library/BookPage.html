@@ -13,15 +13,27 @@
          id="anchor{{page.PageNumber}}">
         <!--ng-if="$index % 3 == 0"--> <!--analog of visible-->
 
-        <div style="height:100%" ><!--is-visible-aware-->
+        <div style="height:100%" class="highlightParent">
+            <!--is-visible-aware-->
             <div class="pageNumber" ng-class="{pageNumberLeft : page.PageNumber % 2 == 1,
                                                pageNumberRight : page.PageNumber % 2 == 0}">
                 {{page.PageNumber}}
             </div>
-            <div ng-bind="page.Text" class="bookPage" style="height:100%" />
-        </div>
-    </div>
+            <!--<div ng-bind="page.Text" class="bookPage" style="height:100%" />-->
+            <!--semi solution with filter-->
+            <!--<div ng-bind-html="page.Text | highlight:SearchModel" class="bookPage" style="height:100%" />-->
+            <!--  <div ng-bind="page.Text" class="bookPage" style="height:100%" highlight-directive="SearchModel"/>-->
+            <!--highlight-directive="SearchModel"-->
+            <!--elements are added but not visible-->
+            <!--<div class="bookPage highlightParent" type="text" ng-bind="page.Text" style="height:100%" highlight-directive search-model="SearchModel.Text">
 
+            </div>-->
+            <!--with static text it works, with dinamyc does not. Something spoiled markup-->
+            <div class="bookPage " ng-bind="page.Text" style="height:100%" highlight-directive 
+                 highlight-model="HightlightModel">
+            </div>
+        </div>
+    </div>  
 </div>
 <!--ng-style="{ 'width': PagesModels. + 'px' }"-->
 <!--<article class="flexChilde bookPage" ng-repeat="page in [1, 2, 3, 4,5]" ng-bind="PagesModels.Pages[0].Text"
@@ -34,6 +46,15 @@ dfgs dfgsdfg fdgdfgd fg sdg-->
 <!--<button ng-click="onRefreshItems">Rerender Items</button>-->
 
 <style>
+    /*<!-- <div class="testHighlightElement highlighted" > </div >-->*/
+    /*.testHighlightElement {
+        position: absolute;
+        left: 548.068px;
+        right: 582.614px;
+        top: 315.071px;
+        bottom: 336.889px;
+    }*/
+
     .bookPage {
         white-space: pre-wrap;
         column-count: 1;
@@ -52,10 +73,18 @@ dfgs dfgsdfg fdgdfgd fg sdg-->
                             inset 5px 0 6px -3px rgba(0,0,0,0.5);
     }
 
-        /*flex children*/
-        .bookPageFlex > * {
-            flex: 0 0 50%;
-        }
+    /*flex children*/
+    .bookPageFlex > * {
+        flex: 0 0 50%;
+    }
+
+    .highlighted {
+        background: rgba(245, 255, 0, 0.40);
+    }
+
+    .highlightParent {
+        position:relative;
+    }
 
     @keyframes showScrollBar {
         from {

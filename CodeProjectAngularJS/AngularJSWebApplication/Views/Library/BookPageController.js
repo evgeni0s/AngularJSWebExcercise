@@ -1,6 +1,7 @@
 ﻿define(['application-configuration'], function (app) {
 
-    var bookPageController = function ($scope, $rootScope, $routeParams, $compile, $sce, $location, $anchorScroll) {
+    var bookPageController = function ($scope, $rootScope, $routeParams, $compile,
+        $sce, $location, $anchorScroll, layoutParametersService, librarySearchService) {
 
         //$scope.initializeController = function (applicationModule) {
 
@@ -9,7 +10,11 @@
         $scope.initializeController = function (pageModel) {
 
             $rootScope.applicationModule = "Library";
-            //$scope.Text = text;
+            $scope.HightlightModel = {
+                SearchQuery: layoutParametersService.SearchQuery,
+                PageNumber: pageModel.PageNumber,
+                createNewSearchResult: librarySearchService.getSearchResultTemplate,
+            }; 
         };
 
 
@@ -17,6 +22,7 @@
     };
     //app.register.directive("bookPageController", function () { });
     app.register.controller('bookPageController', ['$scope', '$rootScope', '$routeParams',
-        '$compile', '$sce', '$location', '$anchorScroll', bookPageController]);
+        '$compile', '$sce', '$location', '$anchorScroll', 'layoutParametersService', 'librarySearchService',
+         bookPageController]);
 
 });

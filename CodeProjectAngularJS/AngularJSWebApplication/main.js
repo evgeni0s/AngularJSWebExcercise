@@ -29,6 +29,7 @@ require.config({
         'angular-sanitize': 'scripts/angular-sanitize',
         'booksService': 'services/booksService',
         'layoutParametersService': 'services/layoutParametersService',
+        'librarySearchService': 'services/librarySearchService',
         'customersController': 'Views/Shared/CustomersController',
         'productLookupModalController': 'Views/Shared/ProductLookupModalController',
         //'booksController': 'Views/Shared/BooksController'

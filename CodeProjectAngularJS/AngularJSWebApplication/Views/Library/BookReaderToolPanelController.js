@@ -23,11 +23,16 @@
             $rootScope.applicationModule = "Library";
             $scope.LayoutProvider = layoutParametersService;
             $scope.SearchQuery = layoutParametersService.SearchQuery;
-            //$scope.CurrentPage = paginationService.CurrentPageNumber;
+            $scope.CurrentPage = paginationService.CurrentPageNumber;
             $scope.TotalPages = paginationService.getTotalPages();
             //$scope.Text = text;
-            $scope.CurrentPage = "5";
+            //$scope.CurrentPage = "5";
         };
+
+        $scope.onSearch = function ()
+        {
+
+        }
 
         //$scope.onCurrentLayoutChanged = function ()
         //{
