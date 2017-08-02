@@ -991,6 +991,9 @@
     <Content Include="Services\OrdersServices.js" />
     <Content Include="Services\PaginationService.js" />
     <Content Include="Services\ProductsServices.js" />
+    <Content Include="Services\Warehouse2D2Service.js" />
+    <Content Include="Services\Warehouse2D1Service.js" />
+    <Content Include="Services\Warehouse2DService.js" />
     <Content Include="Services\WarehouseBaseService.js" />
     <Content Include="Views\Accounts\Login.html" />
     <Content Include="Views\Accounts\LoginController.js" />

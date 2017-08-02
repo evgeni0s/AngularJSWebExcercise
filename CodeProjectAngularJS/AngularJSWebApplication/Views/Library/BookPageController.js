@@ -7,6 +7,11 @@
 
         //here I should have access to parent scope if bookReader will have variables as objects $scope.answer = {};
         // then here I will have $scope.answer.
+        $scope.onHighlightComplete = function ()
+        {
+            librarySearchService.goToStart();
+        }
+
         $scope.initializeController = function (pageModel) {
 
             $rootScope.applicationModule = "Library";
@@ -14,6 +19,7 @@
                 SearchQuery: layoutParametersService.SearchQuery,
                 PageNumber: pageModel.PageNumber,
                 createNewSearchResult: librarySearchService.getSearchResultTemplate,
+                highlightComplete: $scope.onHighlightComplete,
             }; 
         };
 

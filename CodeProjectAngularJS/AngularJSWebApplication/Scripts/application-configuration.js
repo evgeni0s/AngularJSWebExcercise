@@ -165,7 +165,10 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
         throw e;
     }
 
-    try {
+    try {/*in main.js does not work*/
+        require(["./Services/WarehouseBaseService.js"]);
+        //require(["./Services/Warehouse2DService.js"]);
+        require(["./Services/Warehouse2D2Service.js"]);
         require(["./Services/LibrarySearchService.js"]);
     }
     catch (e) {
@@ -173,15 +176,15 @@ define(['angularAMD', 'angular-route', 'ui-bootstrap', 'angular-sanitize', 'bloc
         rdf++;
     }
 
-    try {
-        var filters = ["./FiltersJS/highlight.js"];
-        filters.forEach(function (entery) {
-            require([entery]);
-        });
-    }
-    catch (e) {
-        throw e;
-    }
+    //try {
+    //    var filters = ["./FiltersJS/highlight.js"];
+    //    filters.forEach(function (entery) {
+    //        require([entery]);
+    //    });
+    //}
+    //catch (e) {
+    //    throw e;
+    //}
 
 
     try {

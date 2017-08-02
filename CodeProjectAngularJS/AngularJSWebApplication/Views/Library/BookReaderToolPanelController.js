@@ -1,7 +1,7 @@
 ﻿define(['application-configuration', 'paginationService', 'layoutParametersService'], function (app) {
 
     var bookReaderToolPanelController = function ($scope, $rootScope, $routeParams,
-        $compile, $sce, paginationService, layoutParametersService) {
+        $compile, $sce, paginationService, layoutParametersService, librarySearchService) {
 
         //Object.defineProperty($scope, "CurrentPage", {
 
@@ -31,7 +31,7 @@
 
         $scope.onSearch = function ()
         {
-
+            librarySearchService.goForward();
         }
 
         //$scope.onCurrentLayoutChanged = function ()
@@ -44,6 +44,6 @@
     };
     //app.register.directive("bookPageController", function () { });
     app.register.controller('bookReaderToolPanelController', ['$scope', '$rootScope', '$routeParams',
-        '$compile', '$sce', 'paginationService','layoutParametersService', bookReaderToolPanelController]);
+        '$compile', '$sce', 'paginationService', 'layoutParametersService','librarySearchService', bookReaderToolPanelController]);
 
 });

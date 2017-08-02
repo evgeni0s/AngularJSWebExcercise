@@ -96,16 +96,6 @@
             return rectInParentCoordinates;
         }
 
-        //function CustomRectangle() {
-
-        //    this.top = 0;
-        //    this.bottom = 0;
-        //    this.left = 0;
-        //    this.right = 0;
-        //    this.height = 0;
-        //    this.width = 0;
-        //}
-
         var createNewSearchResult = function ()
         {
             return _scope.highlightModel.createNewSearchResult();
@@ -199,6 +189,7 @@
                     textContainer = element;
                     parentRectangle = element[0].getBoundingClientRect();
                     beginHighlight();
+                    $scope.highlightModel.highlightComplete();
                 });
 
             }

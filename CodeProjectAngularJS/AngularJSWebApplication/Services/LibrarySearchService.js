@@ -1,19 +1,37 @@
 ﻿define(['application-configuration'], function (app) {
 
-    var librarySearchService = function ()
+    var librarySearchService = function (warehouse2D2Service)
     {
         var searchResults = [];
         var currentSearchResult = {};
-        var saveOnPage = function (pageNumber, searchResult) {
-            if (!searchResults.hasOwnProperty(pageNumber)){
-                searchResults[pageNumber] = [];
-            }
+        // warehouse has some handy methods for working with collection
+        var warehouse = warehouse2D2Service.createNew();
+        searchResults = warehouse.Items;
 
-            if (!searchResults[pageNumber].includes(searchResult)) {
-                searchResults[pageNumber].push(searchResult);
-            }
+
+        // Cretes an array of arras. Array of pages where eash item is array of search results
+        var saveOnPage = function (pageNumber, searchResult) {
+            //if (!searchResults.hasOwnProperty(pageNumber)){
+            //    searchResults[pageNumber] = [];
+            //}
+
+            //if (!searchResults[pageNumber].includes(searchResult)) {
+            //    searchResults[pageNumber].push(searchResult);
+            //}
+            warehouse.add(pageNumber, searchResult);
         };
-        
+
+        //var saveOnPage1 = function (pageNumber, searchResult)
+        //{
+        //    if (!warehouse.hasOwnProperty(pageNumber)) {
+        //        searchResults[pageNumber] = [];
+        //    }
+
+        //    if (!searchResults[pageNumber].includes(searchResult)) {
+        //        searchResults[pageNumber].push(searchResult);
+        //    }
+        //}
+
         //function isBiggerThan10(element, index, array) {
         //    return element > 10;
         //}
@@ -49,6 +67,21 @@
                 return new SearchResult();
             },
         };
+
+        // Opens access to goods from WarehouseBaseService
+        /*
+            totalItems
+            Items
+            Current
+            goTo
+            goForward
+            goBackward
+            nextId
+            previousId
+            clear
+        */
+        angular.extend(factoryApi, warehouse);
+
         return factoryApi;
 
 
@@ -58,5 +91,6 @@
 
         //angular.extend(ChildService.prototype, BaseService);
     };
-    app.register.factory('librarySearchService', librarySearchService);
+    //app.register.factory('librarySearchService', ['warehouseBaseService', librarySearchService]);
+    app.register.factory('librarySearchService', ['warehouse2D2Service', librarySearchService]);
 });
