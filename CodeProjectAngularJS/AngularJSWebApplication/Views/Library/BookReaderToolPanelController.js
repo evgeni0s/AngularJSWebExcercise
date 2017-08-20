@@ -22,7 +22,6 @@
 
             $rootScope.applicationModule = "Library";
             $scope.LayoutProvider = layoutParametersService;
-            $scope.SearchQuery = layoutParametersService.SearchQuery;
             $scope.CurrentPage = paginationService.CurrentPageNumber;
             $scope.TotalPages = paginationService.getTotalPages();
             //$scope.Text = text;
@@ -33,6 +32,16 @@
         {
             librarySearchService.goForward();
         }
+
+        Object.defineProperty($scope, "SearchQueryText", {
+            get: function () {
+                return layoutParametersService.SearchQuery.Text;
+            },
+            set: function (value) {
+                layoutParametersService.setSearchQueryText(value);
+            }
+        });
+
 
         //$scope.onCurrentLayoutChanged = function ()
         //{

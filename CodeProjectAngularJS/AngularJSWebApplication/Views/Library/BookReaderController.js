@@ -1,10 +1,52 @@
-﻿"use strict";
-define(['application-configuration', 'alertsService', 'booksService', 'paginationService'], function (app) {
+﻿/*Parent of BookReaderToolPanel and BookPage. Therefore both consume model
+initializeController(BookPageModel)
 
-    app.register.controller('bookReaderController', ['$scope', '$rootScope', '$routeParams', '$compile', '$sce', 'alertsService', 'booksService', 'paginationService',
-        function ($scope, $rootScope, $routeParams, $compile, $sce, alertsService, booksService, paginationService) {
+What I want to do is manually update Hilight directive and then warehouse
+warehoue is common
+directive is per page. therefore first update all direcrives, and then warehouse
 
-            //$scope.initializeController = function (applicationModule) {
+    SearchQueryText
+           V
+        this class
+        /        \
+       V          V
+directive -----> warehouse   very tightly coupled
+
+also should remove depedency between direstive and warehouse
+
+
+*/
+
+"use strict";
+define(['application-configuration',
+    'alertsService',
+    'booksService',
+    'paginationService',
+    'layoutParametersService',
+    'librarySearchService'], function (app) {
+        app.register.controller('bookReaderController', ['$scope',
+            '$rootScope',
+            '$routeParams',
+            '$compile',
+            '$sce',
+            'alertsService',
+            'booksService',
+            'paginationService',
+            'layoutParametersService',
+        'librarySearchService',
+        function ($scope,
+            $rootScope,
+            $routeParams,
+            $compile,
+            $sce,
+            alertsService,
+            booksService,
+            paginationService,
+            layoutParametersService,
+            librarySearchService) {
+
+            $scope.HilightDirectiveData = {};
+
             $scope.initializeController = function () {
 
                 $rootScope.applicationModule = "Library";
@@ -14,14 +56,13 @@ define(['application-configuration', 'alertsService', 'booksService', 'paginatio
                 $scope.Name = "";
                 $scope.Text = "";
                 $scope.PagesModels = paginationService;
-                //$scope.PagesModels.appedTextParts(["dummy text item"], 400);
-
-                //$scope.Next = {};
-                //$scope.Current = {};
-                //$scope.Previous = {};
                 //$scope.PagesModels = {
-                //    //Pages: ["qwe","sds"],
+                //    Pages: paginationService.Pages,
+                //    // SearchQuery.Text                consider that prop is here
                 //};
+                // hilightDirective will monitor new objetc SearchQuery.Text and not directly bounded to layoutParametersService
+                angular.extend($scope.HilightDirectiveData, layoutParametersService.SearchQuery);
+                subscribeEvents();
                 $scope.getBook();
             };
             
@@ -41,18 +82,6 @@ define(['application-configuration', 'alertsService', 'booksService', 'paginatio
             $scope.onGetBookFailed = function () {
 
             };
-
-            $scope.TestItems = [1, 2, 3, 4, 5];
-            $scope.onRefreshItems = function () {
-                $scope.TestItems = 0;
-                $scope.TestItems = [1, 2, 3, 4, 5, 6, 7, 8];
-            };
-
-            //Object.defineProperty($scope, "PagesModels", {
-            //    get: function () {
-            //        return paginationService.Pages;
-            //    }
-            //});
 
             //https://stackoverflow.com/questions/22427885/how-to-access-child-controller-scope-in-parent-controller-in-angular
             $scope.onPagesLoaded = function (payload) {
@@ -118,14 +147,29 @@ define(['application-configuration', 'alertsService', 'booksService', 'paginatio
                 //angularElement.remove();
 
             }
-            //$scope.loadPages1 = function () {
 
+            var subscribeEvents = function ()
+            {
+                layoutParametersService.subscribeSearchQueryChanged($scope, onSearchQueryTextChanged);
+                $scope.$on('text-found-on-page-event', textFoundOnPage);
+            }
 
-            $scope.$watch('$viewContentLoaded', function () {
-                //$scope.loadPages1();
-            });
-            
+            var beginSearch = function ()
+            {
+                // directive listens when this property changes
+                $scope.HilightDirectiveData.Text = layoutParametersService.SearchQuery.Text;
+            }
 
+            var onSearchQueryTextChanged = function ()
+            {
+                librarySearchService.clear();
+                beginSearch();
+            }
+
+            var textFoundOnPage = function (event, searchResult)
+            {
+                librarySearchService.saveOnPage(searchResult.pageNumber, searchResult)
+            }
         }]);
 
 });

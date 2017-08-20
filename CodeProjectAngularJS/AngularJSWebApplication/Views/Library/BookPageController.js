@@ -11,15 +11,22 @@
         {
             librarySearchService.goToStart();
         }
+        //
+        //$scope.onHighlightStarted = function () {
+        //    librarySearchService.clear();
+        //}
 
         $scope.initializeController = function (pageModel) {
 
             $rootScope.applicationModule = "Library";
             $scope.HightlightModel = {
-                SearchQuery: layoutParametersService.SearchQuery,
+                // useing prototype inheritence, these below data are obtained from parent
+                SearchQuery: $scope.HilightDirectiveData,
+                //SearchQuery: layoutParametersService.SearchQuery,  Insted Parameters will come from parent and parent will controll them
                 PageNumber: pageModel.PageNumber,
                 createNewSearchResult: librarySearchService.getSearchResultTemplate,
                 highlightComplete: $scope.onHighlightComplete,
+                //highlightStarted: $scope.onHighlightStarted,
             }; 
         };
 

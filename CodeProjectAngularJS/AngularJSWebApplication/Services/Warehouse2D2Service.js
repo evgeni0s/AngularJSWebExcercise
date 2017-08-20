@@ -1,25 +1,49 @@
 ﻿/*Continue with:
-need assosiative array
-currently if I add 1 page with number 33, then length of array will be 33
-https://www.w3schools.com/js/js_arrays.asp
+continue testing goForward and goBackward.
 */
 
 define(['application-configuration'], function (app) {
     /*
-    recurcive:
-    [parent][child]
+    recurcive!!!
+    items[
+        { Key: '3234', Value: Warehouse2D2Service},
+        { Key: '34', Value: Warehouse2D2Service},
+        { Key: '1', Value: Warehouse2D2Service}
+    ]
+
+    Warehouse2D2Service has list of Warehouse2D2Service
+    each contains set of methods
+    .goToEnd()
+    .goToStart()
+
+
+    Who ever calls service, will create Warehouse2D2Service(isRoot -> true);
+    nested Warehouses will have isRoot -> false
     */
     function Warehouse2D2Service(isRoot) {
         
-        var items = [];
+        var items = []; 
 
-        var Current = {};  // key. items[Current].Current - value
-
+        var Current = {};
+        
         var totalItems = function () {
-            return items.reduce(sumLength);
+            if (is1D()) {
+                return items.length;
+            } else if (is2D()) {
+                var accumulatedSum = items.reduce(function (total, current) {
+                    return total + current.Value.totalItems();
+                });
+                return accumulatedSum;
+            }
         };
 
+        function KVP(key, value)
+        {
+            this.Key = key;
+            this.Value = value;
+        }
 
+        
         var goTo = function (index) {
             var needRewindToStart = items.indexOf(Current) > index;
             var needRewindToEnd= items.indexOf(Current) < index;
@@ -34,30 +58,23 @@ define(['application-configuration'], function (app) {
 
         var goToStart = function () {
             Current = items[0];
-            //zipCodes.push({ 10006: 'New York, NY' });
-            if (!Current || !Current.goToStart)
-            {
-                return;
+            if (is2D) {
+                Current.Value.goToStart();
             }
-            items[Current].goToStart();
         }
 
         var goToEnd = function () {
             Current = items[items.length - 1];
-            if (!Current || !Current.goToEnd) {
-                return;
+            if (is2D) {
+                Current.Value.goToEnd();
             }
-            items[Current].goToEnd();
         }
 
         
         var goForward = function () {
-            if (!items.hasOwnProperty(Current)) {
-                return;
-            }
             // move forward child
-            if (items[Current].canGoForward()) {
-                items[Current].goForward();
+            if (is2D() && Current.Value.canGoForward()) {
+                Current.Value.goForward();
             }
             // go forward self
             else if (canGoForward()) {
@@ -67,17 +84,13 @@ define(['application-configuration'], function (app) {
             }
             // start from beggining
             else if (isRoot) {
-                //Current = items[0];
                 goToStart();
             }
         };
 
         var goBackward = function () {
-            if (!items.hasOwnProperty(Current)) {
-                return;
-            }
             // move back child
-            if (items[Current].canGoBackward()) {
+            if (is2D() && items[Current].canGoBackward()) {
                 items[Current].goBackward();
             }
             // go back self
@@ -94,66 +107,105 @@ define(['application-configuration'], function (app) {
             }
         };
 
-        // parent asks if childe can go forward
+
+        // result does not depend on 1d or 2d. Only on current item and items.count 
         var canGoForward = function ()
         {
-            if (!items.hasOwnProperty(Current)) {
-                return false;
-            }
             var currentIndex = items.indexOf(Current);
             return currentIndex + 1 < items.length;
         };
 
         var canGoBackward = function () {
-            if (!items.hasOwnProperty(Current)) {
-                return false;
-            }
             var currentIndex = items.indexOf(Current);
             return currentIndex - 1 > 0;
         };
 
-
+        // Warehouse's core
         var add = function (key, value) {
+
+            // 1d or 2d
+            var kvp1 = findByKey(key);
+
             // create parent if not exists
-            if (!items.hasOwnProperty(key)) {
-                items[key] = new Warehouse2D2Service();
+            if (!kvp1) {
+                if (value) {
+                    // 2d element
+                    kvp1 = new KVP(key, new Warehouse2D2Service());
+                    items.push(kvp1);
+                } else {
+                    // 1d element
+                    if (!findByKey(key));
+                    {
+                        items.push(key);
+                    }
+                    
+                    // no children in such array
+                    return;
+                }
             }
 
-            // add child if not exists
-            var children = items[key].Items;
-            //if (!items[key].includes(value)) {
-            //    items[key].push(value);
-            //}
-
-            if (children.indexOf(value) === -1) {
-                children.push(value);
-            }
+            var childWarehouse1d = kvp1.Value;
+            //recursive call to this same function, but in 1d mode
+            childWarehouse1d.add(value)
         };
+
+        var is1D = function ()
+        {
+            return items.length > 0 && !is2D();
+        }
+
+        var is2D = function ()
+        {
+            //return typeof (items[0]) === 'KVP';
+            return items[0] && items[0].constructor && items[0].constructor.name;
+        }
 
         var clear = function () {
             Current = {};
             items.length = 0;
         };
 
+        //#region private helpers
         var elementAt = function (index) {
             return items.slice(index, index + 1);
         };
 
         var getCurrentValue = function ()
         {
-            if (!items.hasOwnProperty(Current)) {
+            if (!Current)
+            {
                 return null;
             }
-            return items[Current].Current;
+
+            if (is1D()) {
+                return Current;
+            } else if (is2D()) {
+                return Cerrent.Value.getCurrentValue();
+            }
         }
-        
+
+        var findByKey = function(key)
+        {
+            return items.find(function (kvp) {
+                if (is2D()) {
+                    // kvp is 2d
+                    return kvp.Key === key
+                }
+                // kvp is 1d
+                return kvp === key;
+            });
+        }
+        //#endregion private helpers
+
         var factoryApi = {
             totalItems: totalItems,
             Items: items,
             Current: Current,
             CurrentValue: getCurrentValue,
             add: add,
-            elementAt: elementAt,
+            elementAt: elementAt,//??
+            findByKey: findByKey,
+
             
             goTo: goTo,
             goToStart: goToStart,

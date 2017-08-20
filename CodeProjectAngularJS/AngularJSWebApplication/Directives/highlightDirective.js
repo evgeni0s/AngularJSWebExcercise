@@ -12,6 +12,17 @@
         var _scope = {};
         var pageNumber = 0;
 
+        function SearchResult() {
+            this.pageNumber = 0;
+            this.top = 0;
+            this.bottom = 0;
+            this.left = 0;
+            this.right = 0;
+            this.height = 0;
+            this.width = 0;
+            this.isSelected = false;
+        };
+
         //with code block it will work fine, but style is teriible
         var incapsulateWithCodeTags = function () {
         };
@@ -96,10 +107,6 @@
             return rectInParentCoordinates;
         }
 
-        var createNewSearchResult = function ()
-        {
-            return _scope.highlightModel.createNewSearchResult();
-        }
         
 
         // because rectangles calculated in screen coordinates, need to make aditional tweak:
@@ -113,7 +120,7 @@
             //rect.right -= parentRectangle.right;
             ////something like: Object {top: 50, right: -200, bottom: -250, left: 100 }
             //var result = new CustomRectangle();
-            var result = createNewSearchResult();
+            var result = new SearchResult();
             result.top = rect.top - parentRectangle.top;
             result.bottom = rect.bottom - parentRectangle.bottom;
             result.left = rect.left - parentRectangle.left;
@@ -140,18 +147,21 @@
                 textContainer.append(newEl);
                 $compile(newEl)(_scope);
             }
-        };
-
+        }; 
 
         var beginHighlight = function () {
             selectionRectangles = [];
             clearHighlightedElements();
+            if (textToFind.length === 0)
+            {
+                return;
+            }
             var searchAt = textContainer.text();
 
             while (pattern.test(searchAt) == true) {
                 var newRectangles = createRectanglesInRange(pattern.lastIndex - textToFind.length, pattern.lastIndex);
                 selectionRectangles.push(newRectangles);
-                newRectangles.saveOnPage(pageNumber);
+                _scope.$emit('text-found-on-page-event', newRectangles);
             }
             attachHighlightElements();
         }
@@ -179,7 +189,7 @@
                 //$scope.$watch(searchQuery.Text, function (value) {
                 //pageNumber = $scope.highlightModel.PageNumber;
                 $scope.$watch('highlightModel.SearchQuery.Text', function (value) {
-                    if (typeof value !== "string" || value.length == 0) {
+                    if (typeof value !== "string") {
                         return;
                     }
                     textToFind = value;
